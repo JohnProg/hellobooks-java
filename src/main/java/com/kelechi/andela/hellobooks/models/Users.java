@@ -6,10 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class User {
+public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstname;
     private String lastname;
@@ -17,7 +17,7 @@ public class User {
     private String username;
     private String password;
 
-    public User(Long id, String firstname, String lastname, String email, String username, String password) {
+    public Users(Long id, String firstname, String lastname, String email, String username, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -26,7 +26,7 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public Users() {
 
     }
 
