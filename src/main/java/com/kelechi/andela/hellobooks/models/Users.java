@@ -17,17 +17,16 @@ public class Users {
     private String username;
     private String password;
 
-    public Users(Long id, String firstname, String lastname, String email, String username, String password) {
-        this.id = id;
+    public Users() {
+
+    }
+
+    public Users(String firstname, String lastname, String email, String username, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.username = username;
         this.password = password;
-    }
-
-    public Users() {
-
     }
 
     public Long getId() {
