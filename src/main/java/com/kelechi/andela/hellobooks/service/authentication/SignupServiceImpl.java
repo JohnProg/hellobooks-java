@@ -3,6 +3,7 @@ package com.kelechi.andela.hellobooks.service.authentication;
 import com.kelechi.andela.hellobooks.dto.UserDTO;
 import com.kelechi.andela.hellobooks.models.Users;
 import com.kelechi.andela.hellobooks.repository.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -56,7 +57,8 @@ public class SignupServiceImpl implements SignupService {
             return "Email is already existing";
         }else{
             try {
-                Users user = new Users(firstname, lastname, email, username, password);
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+                Users user = new Users(firstname, lastname, email, username, hashedPassword);
                 userRepository.save(user);
                 return "User saved successfully";
             } catch (Exception e) {

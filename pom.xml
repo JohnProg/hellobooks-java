@@ -49,8 +49,9 @@
             <version>3.5.6-Final</version>
         </dependency>
 		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
 		</dependency>
 	</dependencies>
 
