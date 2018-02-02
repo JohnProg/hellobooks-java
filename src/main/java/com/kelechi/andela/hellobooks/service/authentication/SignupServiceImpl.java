@@ -3,6 +3,8 @@ package com.kelechi.andela.hellobooks.service.authentication;
 import com.kelechi.andela.hellobooks.dto.UserDTO;
 import com.kelechi.andela.hellobooks.models.Users;
 import com.kelechi.andela.hellobooks.repository.UserRepository;
+import com.kelechi.andela.hellobooks.util.helpers.JSONTokenManager;
+import com.kelechi.andela.hellobooks.util.response.AuthenticationResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ public class SignupServiceImpl implements SignupService {
     private UserRepository userRepository;
 
     @Override
-    public String saveUser(UserDTO userDTO) {
+    public AuthenticationResponse signupUser(UserDTO userDTO) {
         String username = userDTO.getUsername();
         String firstname = userDTO.getFirstname();
         String lastname = userDTO.getLastname();
@@ -23,44 +25,69 @@ public class SignupServiceImpl implements SignupService {
         String password = userDTO.getPassword();
 
         if("".equals(username) || username == null ){
-            return "Username is required";
+            String message = "Username is required";
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
         if(username.length() < 5){
-            return "Username is too short";
+            String message = "Username is too short";
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
         if(username.length() > 10){
-            return "Username is too long";
+            String message = "Username is too long";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
 
         if("".equals(firstname) || firstname == null){
-            return "Firstname is required";
+            String message = "Firstname is required";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
 
         if("".equals(lastname) || lastname == null){
-            return "Lastname is required";
+            String message = "Lastname is required";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
 
         if("".equals(email) || email == null){
-            return "Email is required";
+            String message = "Email is required";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
 
         if("".equals(password) || password == null){
-            return "Password is required";
+            String message = "Password is required";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }
 
         List<Users> existingUsername =  userRepository.findByUsername(username);
         List<Users> existingEmail = userRepository.findByEmail(email);
 
         if(existingUsername.size() > 0){
-            return "Username is already existing";
+            String message = "Username is already existing";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }else if(existingEmail.size() > 0){
-            return "Email is already existing";
+            String message = "Email is already existing";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
         }else{
             try {
                 String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
                 Users user = new Users(firstname, lastname, email, username, hashedPassword);
-                userRepository.save(user);
-                return "User saved successfully";
+                Users savedUser =  userRepository.save(user);
+                Long id = savedUser.getId();
+
+                String token = JSONTokenManager.createJWT(id, email, username);
+
+                String message = "User saved successfully";
+                boolean success = true;
+
+                return new AuthenticationResponse(token, success, message, savedUser);
             } catch (Exception e) {
                 e.printStackTrace();
             }

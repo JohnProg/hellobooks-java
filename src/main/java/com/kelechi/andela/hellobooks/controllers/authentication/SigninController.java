@@ -1,20 +1,20 @@
 package com.kelechi.andela.hellobooks.controllers.authentication;
 
 import com.kelechi.andela.hellobooks.dto.UserDTO;
-import com.kelechi.andela.hellobooks.service.authentication.SignupServiceImpl;
+import com.kelechi.andela.hellobooks.service.authentication.SigninServiceImpl;
 import com.kelechi.andela.hellobooks.util.response.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class SignupController {
+public class SigninController {
     @Autowired
-    private SignupServiceImpl signupService;
+    private SigninServiceImpl signinService;
 
-    @RequestMapping(value = "/api/v1/users/signup", method= RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/users/signin", method= RequestMethod.POST)
     public @ResponseBody
     AuthenticationResponse addUser(@RequestBody UserDTO userDto){
-        AuthenticationResponse signupUserResponse = signupService.signupUser(userDto);
-        return signupUserResponse;
+        AuthenticationResponse signinResponse = signinService.signinUser(userDto);
+        return signinResponse;
     }
 }
