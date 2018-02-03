@@ -5,6 +5,7 @@ import com.kelechi.andela.hellobooks.util.response.AuthenticationResponse;
 
 import java.util.Map;
 
-public interface SignupService {
-    AuthenticationResponse signupUser(UserDTO userDTO);
+public interface UsersService {
+    AuthenticationResponse signup(UserDTO userDTO);
+    AuthenticationResponse signin(UserDTO userDTO);
 }
