@@ -1,4 +1,4 @@
-package com.kelechi.andela.hellobooks.service.authentication;
+package com.kelechi.andela.hellobooks.service;
 
 import com.kelechi.andela.hellobooks.dto.UserDTO;
 import com.kelechi.andela.hellobooks.models.Users;
