@@ -7,22 +7,25 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 public class JSONTokenManager {
+
+    private static  final Long  TOKEN_TIMEOUT = Long.valueOf(60 * 60);
+    private static final String TOKEN_SUBJECT = "users/hellobooks";
+    private static final String TOKEN_SECRET = "hellobooks-secret";
+
     public static String createJWT(Long id, String email, String username){
 
-        final String subject = "users/hellobooks";
-        final Long timeout = Long.valueOf(60 * 60);
 
         String jwt = null;
         try {
             jwt = Jwts.builder()
-                    .setSubject(subject)
-                    .setExpiration(new Date(timeout))
+                    .setSubject(TOKEN_SUBJECT)
+                    .setExpiration(new Date(TOKEN_TIMEOUT))
                     .claim("email", email)
                     .claim("userId", id)
                     .claim("username", username)
                     .signWith(
                             SignatureAlgorithm.HS256,
-                            "secret".getBytes("UTF-8")
+                            TOKEN_SECRET.getBytes("UTF-8")
                     )
                     .compact();
         } catch (UnsupportedEncodingException e) {
