@@ -1,8 +1,7 @@
-package com.kelechi.andela.hellobooks.controllers.authentication;
+package com.kelechi.andela.hellobooks.controllers;
 
 import com.kelechi.andela.hellobooks.dto.UserDTO;
-import com.kelechi.andela.hellobooks.service.authentication.UsersService;
-import com.kelechi.andela.hellobooks.service.authentication.UsersServiceImpl;
+import com.kelechi.andela.hellobooks.service.UsersService;
 import com.kelechi.andela.hellobooks.util.response.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
