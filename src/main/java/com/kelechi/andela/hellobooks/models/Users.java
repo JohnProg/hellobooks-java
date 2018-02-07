@@ -1,9 +1,7 @@
 package com.kelechi.andela.hellobooks.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Users {
@@ -11,22 +9,37 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name ="FIRST_NAME", nullable = false, length = 50)
     private String firstname;
+
+    @Column(name ="LAST_NAME", nullable = false, length = 50)
     private String lastname;
+
+    @Column(name ="EMAIL", nullable = false, length = 50)
     private String email;
+
+    @Column(name ="USERNAME", nullable = false, length = 15)
     private String username;
+
+    @Column(name ="PASSWORD", nullable = false, length = 100)
     private String password;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_TYPE_ID", referencedColumnName = "ID")
+    private UserType userType;
 
     public Users() {
 
     }
 
-    public Users(String firstname, String lastname, String email, String username, String password) {
+    public Users(String firstname, String lastname, String email, String username, String password, UserType userType) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.userType = userType;
     }
 
     public Long getId() {
@@ -76,4 +89,13 @@ public class Users {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
 }
