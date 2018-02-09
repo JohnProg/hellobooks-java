@@ -5,6 +5,8 @@ import com.kelechi.andela.hellobooks.models.Users;
 import com.kelechi.andela.hellobooks.repository.UserRepository;
 import com.kelechi.andela.hellobooks.util.helpers.JSONTokenManager;
 import com.kelechi.andela.hellobooks.util.response.AuthenticationResponse;
+import com.kelechi.andela.hellobooks.util.response.UsersResponse;
+import io.jsonwebtoken.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,6 +128,26 @@ public class UsersServiceImpl implements UsersService {
                 return new AuthenticationResponse(token, success, message, existingUser);
             }
             return new AuthenticationResponse(false, "Email or password is incorrect");
+        }
+    }
+
+    @Override
+    public UsersResponse getAllUsers(String token) {
+        try {
+            Jws<Claims> claims = JSONTokenManager.decodeToken(token);
+            List<Users> users = (List<Users>) userRepository.findAll();
+            return new UsersResponse("Users list obtained", true, users);
+        } catch (ExpiredJwtException e) {
+            return new UsersResponse(e.getMessage(), false, null);
+        } catch (UnsupportedJwtException e) {
+            e.printStackTrace();
+            return new UsersResponse(e.getMessage(), false, null);
+        } catch (MalformedJwtException e) {
+            e.printStackTrace();
+            return new UsersResponse(e.getMessage(), false, null);
+        } catch (SignatureException e) {
+            e.printStackTrace();
+            return new UsersResponse(e.getMessage(), false, null);
         }
     }
 
