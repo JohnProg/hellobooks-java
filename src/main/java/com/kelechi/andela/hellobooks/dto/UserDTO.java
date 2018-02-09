@@ -6,6 +6,7 @@ public class UserDTO {
     private String username;
     private String email;
     private String password;
+    private int usertypeId;
 
     public UserDTO() {
     }
@@ -15,13 +16,14 @@ public class UserDTO {
         this.email = email;
     }
 
-    public UserDTO(String firstname, String lastname, String username, String email, String password) {
+    public UserDTO(String firstname, String lastname, String username, String email, String password, int usertypeId) {
 
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.usertypeId = usertypeId;
     }
 
     public String getFirstname() {
@@ -63,5 +65,13 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getUsertypeId() {
+        return usertypeId;
+    }
+
+    public void setUsertypeId(int usertypeId) {
+        this.usertypeId = usertypeId;
     }
 }

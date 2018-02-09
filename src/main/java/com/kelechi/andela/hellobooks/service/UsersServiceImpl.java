@@ -1,6 +1,8 @@
 package com.kelechi.andela.hellobooks.service;
 
 import com.kelechi.andela.hellobooks.dto.UserDTO;
+import com.kelechi.andela.hellobooks.enums.UserTypeEnum;
+import com.kelechi.andela.hellobooks.models.UserType;
 import com.kelechi.andela.hellobooks.models.Users;
 import com.kelechi.andela.hellobooks.repository.UserRepository;
 import com.kelechi.andela.hellobooks.util.helpers.JSONTokenManager;
@@ -25,6 +27,7 @@ public class UsersServiceImpl implements UsersService {
         String lastname = userDTO.getLastname();
         String email = userDTO.getEmail();
         String password = userDTO.getPassword();
+        int usertypeId = userDTO.getUsertypeId();
 
         if("".equals(username) || username == null ){
             String message = "Username is required";
@@ -66,6 +69,12 @@ public class UsersServiceImpl implements UsersService {
             return  new AuthenticationResponse(success, message);
         }
 
+        if("".equals(usertypeId) || usertypeId == 0){
+            String message = "Usertype Id is required";;
+            boolean success = false;
+            return  new AuthenticationResponse(success, message);
+        }
+
         List<Users> existingUsername =  userRepository.findByUsername(username);
         List<Users> existingEmail = userRepository.findByEmail(email);
 
@@ -80,7 +89,7 @@ public class UsersServiceImpl implements UsersService {
         }else{
             try {
                 String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-                Users user = new Users(firstname, lastname, email, username, hashedPassword);
+                Users user = new Users(firstname, lastname, email, username, hashedPassword, getUserType(usertypeId));
                 Users savedUser =  userRepository.save(user);
                 Long id = savedUser.getId();
 
@@ -157,5 +166,16 @@ public class UsersServiceImpl implements UsersService {
             isVerified = true;
         }
         return  isVerified;
+    }
+
+    private UserType getUserType(int usertypeId){
+        switch (usertypeId){
+            case 1:
+                return new UserType(UserTypeEnum.USER);
+            case 2:
+                return new UserType(UserTypeEnum.ADMIN);
+            default:
+                return null;
+        }
     }
 }
